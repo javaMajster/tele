@@ -13,6 +13,33 @@
   } ],
   "schemes" : [ "http", null ],
   "paths" : {
+    "/helloService/getByAddressId" : {
+      "post" : {
+        "tags" : [ "helloService" ],
+        "summary" : "Metod for getting data by address id",
+        "description" : "data.",
+        "operationId" : "getByAddressId",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Address id.",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/GetByAddressIdWSRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/GetByAddressIdWSResponse"
+            }
+          }
+        }
+      }
+    },
     "/helloService/isAlive" : {
       "get" : {
         "tags" : [ "helloService" ],
@@ -33,12 +60,14 @@
       "post" : {
         "tags" : [ "helloService" ],
         "summary" : "Metoda za testiranje POST-a.",
-        "description" : "Vraća dummy response.",
+        "description" : "Returns dummy response.",
         "operationId" : "dodajSalter",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
         "parameters" : [ {
           "in" : "body",
           "name" : "body",
-          "description" : "Objekt koji sadrži podatke o salteru koju se dodaje.",
+          "description" : "Dummy string.",
           "required" : true,
           "schema" : {
             "$ref" : "#/definitions/WSRequest"
@@ -56,6 +85,95 @@
     }
   },
   "definitions" : {
+    "AddressDTO" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "streetNo" : {
+          "type" : "string"
+        },
+        "street" : {
+          "type" : "string"
+        },
+        "city" : {
+          "type" : "string"
+        },
+        "post" : {
+          "type" : "string"
+        },
+        "postNo" : {
+          "type" : "string"
+        }
+      }
+    },
+    "GetByAddressIdWSRequest" : {
+      "type" : "object",
+      "required" : [ "addressId", "message" ],
+      "properties" : {
+        "message" : {
+          "type" : "string",
+          "description" : "Dummy message."
+        },
+        "addressId" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Look up by addressId."
+        }
+      },
+      "description" : "Dummy request."
+    },
+    "GetByAddressIdWSResponse" : {
+      "type" : "object",
+      "required" : [ "poruka", "status" ],
+      "properties" : {
+        "status" : {
+          "type" : "string",
+          "format" : "byte",
+          "description" : "Status obrade zahtjeva prema WS-u."
+        },
+        "poruka" : {
+          "type" : "string",
+          "description" : "Poruka koja opisuje rezultat obrade zahtjeva prema WS-u."
+        },
+        "errors" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "service" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/ServiceDTO"
+          }
+        },
+        "address" : {
+          "$ref" : "#/definitions/AddressDTO"
+        }
+      },
+      "description" : "Generički response objekt kojeg naslijeđuju svi odgovori web servisa."
+    },
+    "ServiceDTO" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "service" : {
+          "type" : "string"
+        },
+        "value" : {
+          "type" : "string"
+        },
+        "comment" : {
+          "type" : "string"
+        }
+      }
+    },
     "WSRequest" : {
       "type" : "object",
       "required" : [ "message" ],

@@ -10,9 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ejb.Stateless;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 
 @Stateless
 @Path("/helloService")
@@ -21,6 +20,7 @@ public class HelloService {
     private static final Logger LOG = LoggerFactory.getLogger(HelloService.class);
 
     @GET
+
     @Path("/isAlive")
     @ApiOperation(value = "Metoda za provjeru živosti servisa.",
             response = String.class, notes = "Vraća objekt \"Hello World\" ako je servis živ.")
@@ -30,10 +30,12 @@ public class HelloService {
 	
 	@POST
     @Path("/testPost")
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @ApiOperation(value = "Metoda za testiranje POST-a.",
-            response = WSResponse.class, notes = "Vraća dummy response.")
+            response = WSResponse.class, notes = "Returns dummy response.")
     public WSResponse dodajSalter(
-            @ApiParam(value = "Objekt koji sadrži podatke o salteru koju se dodaje.", required = true)
+            @ApiParam(value = "Dummy string.", required = true)
                     WSRequest request) {
         WSResponse response = new WSResponse(WSResponse.STATUS_OK);
 		response.setPoruka(request.getMessage());

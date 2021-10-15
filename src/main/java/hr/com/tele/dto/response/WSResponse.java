@@ -3,10 +3,11 @@ package hr.com.tele.dto.response;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
+@XmlRootElement
 @ApiModel(description = "Generički response objekt kojeg naslijeđuju svi odgovori web servisa.")
 public class WSResponse implements Serializable {
     private static final long serialVersionUID = 4761747904037493446L;
